@@ -1,0 +1,32 @@
+FROM node:18-alpine AS base
+
+# Installer pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY package.json pnpm-lock.yaml ./
+COPY prisma ./prisma/
+
+# Installer les dépendances
+RUN pnpm install --frozen-lockfile
+
+# Copier le reste du code
+COPY . .
+
+# Générer Prisma Client
+RUN pnpm prisma generate
+
+# Build Next.js
+RUN pnpm build
+
+# Exposer le port
+EXPOSE 3000
+
+# Variables d'environnement
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Démarrer l'application
+CMD ["pnpm", "start"]

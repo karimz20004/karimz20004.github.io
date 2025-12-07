@@ -1,0 +1,30 @@
+### Variables
+@baseUrl = http://localhost:3000/app
+
+### Créer un profil
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "name": "John Doe",
+  "password": "password123"
+}
+
+### Se connecter
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+
+### Récupérer un profil (remplacer 1 par l'ID de l'utilisateur)
+GET {{baseUrl}}/auth/profile/1
+
+### Test API racine
+GET http://localhost:3000/
+
+### Test health check
+GET http://localhost:3000/health
